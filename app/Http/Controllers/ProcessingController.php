@@ -35,6 +35,7 @@ class ProcessingController extends Controller
         $customFactorTboBumaga = $request->input('custom_factor_tbo_bumaga');
         $customFactorTboDerevo = $request->input('custom_factor_tbo_derevo');
         $customFactorMeshki = $request->input('custom_factor_tbo_meshki');
+        $customFactorNeutil = $request->input('custom_factor_tbo_neutil');
         $customFactorCement = $request->input('custom_factor_tpo_cement');
         $customFactorKrishki = $request->input('custom_factor_tpo_krishki');
         $customFactorShini = $request->input('custom_factor_tpo_shini');
@@ -109,6 +110,7 @@ class ProcessingController extends Controller
         'Дерево' => ['fields' => ['tbo_derevo', 'tpo_drevesn'], 'factor' => $customFactorTboDerevo ?? 1],
         'Мешки' => ['fields' => ['tbo_meshki', 'tpo_meshki'], 'factor' => $customFactorMeshki ?? 1],
         'Цемент' => ['field' => 'tpo_cement', 'factor' => $customFactorCement ?? 1],
+        'ТБО Неутиль' => ['field' => 'tbo_neutil', 'factor' => $customFactorNeutil ?? 1,'type' => 'Cожжено'],
         'Крышки' => ['field' => 'tpo_krishki', 'factor' => $customFactorKrishki ?? 1],
         'Шины' => ['field' => 'tpo_shini', 'factor' => $customFactorShini ?? 1],
         'Ветошь Фи' => ['field' => 'tpo_vetosh_fi', 'factor' => $customFactorVetoshFi ?? 1],
