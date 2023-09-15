@@ -109,7 +109,7 @@ class ProcessingController extends Controller
         'Бумага и Картон' => ['fields' => ['tbo_bumaga', 'tpo_makul'], 'factor' => $customFactorTboBumaga ?? 1],
         'Дерево' => ['fields' => ['tbo_derevo', 'tpo_drevesn'], 'factor' => $customFactorTboDerevo ?? 1],
         'Мешки' => ['fields' => ['tbo_meshki', 'tpo_meshki'], 'factor' => $customFactorMeshki ?? 1],
-        'Цемент' => ['field' => 'tpo_cement', 'factor' => $customFactorCement ?? 1],
+        'Цемент' => ['field' => 'tpo_cement', 'factor' => $customFactorCement ?? 1,'type' => 'Переработано'],
         'ТБО Неутиль' => ['field' => 'tbo_neutil', 'factor' => $customFactorNeutil ?? 1,'type' => 'Cожжено'],
         'Крышки' => ['field' => 'tpo_krishki', 'factor' => $customFactorKrishki ?? 1],
         'Шины' => ['field' => 'tpo_shini', 'factor' => $customFactorShini ?? 1],
