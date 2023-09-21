@@ -53,7 +53,7 @@ Route::get('/getCompanyById', [CompanyController::class, 'getCompanyById'])->mid
 Route::POST('/getByIdCompany/{id}', [CompanyController::class, 'getByIdCompany'])->middleware('auth:sanctum');
 Route::post('/updateByIdCompany/{id}', [CompanyController::class, 'updateByIdCompany'])->middleware('auth:sanctum');
 
-Route::post('/updateByIdModerator/{id}', [ModeratorController::class, 'updateByIdCompany'])->middleware('auth:sanctum');
+Route::post('/updateByIdModerator/{id}', [ModeratorController::class, 'updateByIdModerator'])->middleware('auth:sanctum');
 Route::post('/getByIdModerator/{id}', [ModeratorController::class, 'getByIdModerator'])->middleware('auth:sanctum');
 Route::get('/show_moderators', [ModeratorController::class, 'index'])->middleware('auth:sanctum');
 
