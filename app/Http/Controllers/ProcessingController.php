@@ -35,6 +35,7 @@ class ProcessingController extends Controller
         $customFactorTboBumaga = $request->input('custom_factor_tbo_bumaga');
         $customFactorTboDerevo = $request->input('custom_factor_tbo_derevo');
         $customFactorMeshki = $request->input('custom_factor_tbo_meshki');
+        $customFactorMetal = $request->input('custom_factor_tbo_metal');
         $customFactorNeutil = $request->input('custom_factor_tbo_neutil');
         $customFactorCement = $request->input('custom_factor_tpo_cement');
         $customFactorKrishki = $request->input('custom_factor_tpo_krishki');
@@ -109,6 +110,7 @@ class ProcessingController extends Controller
         'Бумага и Картон' => ['fields' => ['tbo_bumaga', 'tpo_makul'], 'factor' => $customFactorTboBumaga ?? 1],
         'Дерево' => ['fields' => ['tbo_derevo', 'tpo_drevesn'], 'factor' => $customFactorTboDerevo ?? 1],
         'Мешки' => ['fields' => ['tbo_meshki', 'tpo_meshki'], 'factor' => $customFactorMeshki ?? 1],
+        'Метал' => ['fields'=> ['tbo_metal', 'tpo_metall_m'],'factor' => $customFactorMetal ?? 1],
         'Цемент' => ['field' => 'tpo_cement', 'factor' => $customFactorCement ?? 1,'type' => 'Переработано'],
         'ТБО Неутиль' => ['field' => 'tbo_neutil', 'factor' => $customFactorNeutil ?? 1,'type' => 'Cожжено'],
         'Крышки' => ['field' => 'tpo_krishki', 'factor' => $customFactorKrishki ?? 1],
