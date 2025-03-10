@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\User;
 class Moderator extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
     protected $table = 'moderator';
 
     /**
@@ -44,4 +45,3 @@ class Moderator extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 }
-

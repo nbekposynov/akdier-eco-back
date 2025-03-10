@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('admin', function (Blueprint $table) {
+        Schema::create('waste_record_items', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->foreignId('waste_record_id')->constrained('waste_records')->onDelete('cascade'); // Привязка к WasteRecord
+            $table->foreignId('waste_id')->constrained('wastes')->onDelete('cascade'); // Привязка к Waste
+            $table->decimal('amount', 10, 2); // Количество отходов
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admin');
+        Schema::dropIfExists('waste_record_items');
     }
 };

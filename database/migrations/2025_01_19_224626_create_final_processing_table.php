@@ -15,14 +15,12 @@ return new class extends Migration
     {
         Schema::create('final_processing', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-            $table-> string('kod_othoda');
-            $table-> string('name_othod');
-            $table->unsignedBigInteger('company_id')->nullable();
-            $table->foreign('company_id')->references('id')->on('company')->onDelete('set null');
-            $table->double('value')->nullable();
-            $table->string('type_operaton')->nullable();
-
+            $table->foreignId('waste_record_id')->constrained('waste_records')->onDelete('cascade'); // Привязка к WasteRecord
+            $table->foreignId('company_id')->constrained('users')->onDelete('cascade'); // Привязка к компании
+            $table->string('name_othod'); // Название отхода
+            $table->decimal('value', 10, 2); // Значение отходов
+            $table->string('type_operation'); // Тип операции
+            $table->timestamps(); // created_at и updated_at
         });
     }
 

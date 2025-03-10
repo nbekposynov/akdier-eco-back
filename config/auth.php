@@ -40,17 +40,9 @@ return [
             'driver' => 'session',
             'provider' => 'users', // Use the 'users' provider for the 'web' guard
         ],
-        'admin' => [
-            'driver' => 'session',
-            'provider' => 'admins', // Use the 'admins' provider for the 'admin' guard
-        ],
-        'company' => [
-            'driver' => 'session',
-            'provider' => 'companies', // Use the 'companies' provider for the 'company' guard
-        ],
-        'moderator' => [
-            'driver' => 'session',
-            'provider' => 'moderators', // Use the 'moderators' provider for the 'moderator' guard
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'users',
         ],
     ],
 
@@ -74,19 +66,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class, // Assuming you have a 'User' model for regular users.
-        ],
-        'admins' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Admin::class, // Check if the namespace and class name are correct
-        ],
-        'companies' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Company::class, // Check if the namespace and class name are correct
-        ],
-        'moderators' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Moderator::class, // Check if the namespace and class name are correct
+            'model' => App\Models\User::class,
         ],
     ],
 
