@@ -17,6 +17,20 @@ class FinalWasteType extends Model
         'factor'
     ];
 
+    public function getFactorAttribute($value)
+    {
+        // Конвертируем значение в float
+        $floatValue = (float) $value;
+
+        // Удаляем десятичную часть, если она равна нулю
+        if ($floatValue == (int)$floatValue) {
+            return (int)$floatValue;
+        }
+
+        // Удаляем лишние нули после запятой
+        return rtrim(rtrim(number_format($floatValue, 6, '.', ''), '0'), '.');
+    }
+
     public function waste()
     {
         return $this->belongsTo(Waste::class, 'waste_id');
