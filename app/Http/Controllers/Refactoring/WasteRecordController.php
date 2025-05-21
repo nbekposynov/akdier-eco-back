@@ -132,7 +132,7 @@ class WasteRecordController extends Controller
         if ($request->has('start_date') && $request->has('end_date')) {
             $query->whereBetween('record_date', [
                 $request->input('start_date'),
-                $request->input(' '),
+                $request->input('end_date'), // Исправлено
             ]);
         } elseif ($request->has('start_date')) {
             $query->where('record_date', '>=', $request->input('start_date'));
