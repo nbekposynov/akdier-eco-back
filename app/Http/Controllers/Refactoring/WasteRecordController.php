@@ -23,40 +23,40 @@ class WasteRecordController extends Controller
         $query = WasteRecord::with('items.waste');
 
         // Фильтрация по имени компании
-        if ($request->has('company_name')) {
+        if ($request->filled('company_name')) {
             $query->whereHas('company', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->input('company_name') . '%');
             });
         }
 
         // Фильтрация по БИН компании
-        if ($request->has('bin')) {
+        if ($request->filled('bin')) {
             $query->whereHas('company', function ($q) use ($request) {
                 $q->where('bin_company', 'like', '%' . $request->input('bin') . '%');
             });
         }
 
         // Фильтрация по дате создания
-        if ($request->has('created_from') && $request->has('created_to')) {
+        if ($request->filled('created_from') && $request->has('created_to')) {
             $query->whereBetween('created_at', [$request->input('created_from'), $request->input('created_to')]);
-        } elseif ($request->has('created_from')) {
+        } elseif ($request->filled('created_from')) {
             $query->where('created_at', '>=', $request->input('created_from'));
-        } elseif ($request->has('created_to')) {
+        } elseif ($request->filled('created_to')) {
             $query->where('created_at', '<=', $request->input('created_to'));
         }
 
         // Фильтрация по модератору
-        if ($request->has('moderator_id')) {
+        if ($request->filled('moderator_id')) {
             $query->where('moderator_id', $request->input('moderator_id'));
         }
 
         // Фильтрация по имени водителя
-        if ($request->has('driv_name')) {
+        if ($request->filled('driv_name')) {
             $query->where('driv_name', 'like', '%' . $request->input('driv_name') . '%');
         }
 
         // Фильтрация по номеру машины
-        if ($request->has('car_num')) {
+        if ($request->filled('car_num')) {
             $query->where('car_num', 'like', '%' . $request->input('car_num') . '%');
         }
 
@@ -81,6 +81,7 @@ class WasteRecordController extends Controller
             'items' => 'required|array',
             'items.*.waste_id' => 'required|exists:wastes,id',
             'items.*.amount' => 'required|numeric|min:0',
+            'items.*.factor' => 'nullable|numeric|min:0', // Фактор для каждого отхода отдельно
         ]);
 
         $record = $this->service->create($validated);
@@ -96,6 +97,7 @@ class WasteRecordController extends Controller
             'items' => 'required|array',
             'items.*.waste_id' => 'required|exists:wastes,id',
             'items.*.amount' => 'required|numeric|min:0',
+            'items.*.factor' => 'nullable|numeric|min:0', // Фактор для каждого отхода отдельно
         ]);
 
         $record = WasteRecord::findOrFail($id);
@@ -116,27 +118,27 @@ class WasteRecordController extends Controller
         $query = WasteRecord::with(['items.waste', 'company', 'moderator']);
 
         // Фильтрация по компании
-        if ($request->has('company_name')) {
+        if ($request->filled('company_name')) {
             $query->whereHas('company', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->input('company_name') . '%');
             });
         }
 
-        if ($request->has('bin')) {
+        if ($request->filled('bin')) {
             $query->whereHas('company', function ($q) use ($request) {
                 $q->where('bin_company', 'like', '%' . $request->input('bin') . '%');
             });
         }
 
         // Фильтрация по диапазону дат
-        if ($request->has('start_date') && $request->has('end_date')) {
+        if ($request->filled('start_date') && $request->has('end_date')) {
             $query->whereBetween('record_date', [
                 $request->input('start_date'),
                 $request->input('end_date'), // Исправлено
             ]);
-        } elseif ($request->has('start_date')) {
+        } elseif ($request->filled('start_date')) {
             $query->where('record_date', '>=', $request->input('start_date'));
-        } elseif ($request->has('end_date')) {
+        } elseif ($request->filled('end_date')) {
             $query->where('record_date', '<=', $request->input('end_date'));
         }
 

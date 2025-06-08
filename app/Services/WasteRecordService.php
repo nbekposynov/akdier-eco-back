@@ -7,8 +7,7 @@ use App\Models\Refactoring\WasteRecord;
 use App\Models\Refactoring\WasteRecordItem;
 
 class WasteRecordService
-{
-    // Создание записи
+{    // Создание записи
     public function create(array $data)
     {
         $wasteRecord = WasteRecord::create([
@@ -27,7 +26,8 @@ class WasteRecordService
             ]);
         }
 
-        $this->generateFinalProcessing($wasteRecord);
+        // Передаем массив items с факторами для создания FinalProcessing
+        $this->generateFinalProcessing($wasteRecord, $data['items']);
 
         return $wasteRecord;
     }
@@ -60,24 +60,41 @@ class WasteRecordService
             }
         }
 
-        // Удаляем и пересоздаем FinalProcessing
+        // Удаляем и пересоздаем FinalProcessing с учетом переданных факторов
         FinalProcessing::where('waste_record_id', $wasteRecord->id)->delete();
-        $this->generateFinalProcessing($wasteRecord);
-
+        $this->generateFinalProcessing($wasteRecord, $data['items']);
         return $wasteRecord;
     }
 
     // Генерация записей в FinalProcessing
-    public function generateFinalProcessing(WasteRecord $wasteRecord)
+    public function generateFinalProcessing(WasteRecord $wasteRecord, array $itemsWithFactors = [])
     {
+        // Создаем массив факторов по waste_id для быстрого поиска
+        $customFactors = [];
+        foreach ($itemsWithFactors as $item) {
+            if (isset($item['factor'])) {
+                $customFactors[$item['waste_id']] = $item['factor'];
+            }
+        }
+
         foreach ($wasteRecord->items()->with(['waste.finalWasteType'])->get() as $item) {
             $finalWasteType = $item->waste->finalWasteType;
+            // Проверяем, что finalWasteType существует
+            if (!$finalWasteType) {
+                throw new \Exception("Не добавлен финальный тип отхода для отхода: {$item->waste->name}");
+            }
+
+            // Используем переданный фактор для этого waste_id, если он есть,
+            // иначе используем фактор из finalWasteType
+            $factor = isset($customFactors[$item->waste_id])
+                ? $customFactors[$item->waste_id]
+                : $finalWasteType->factor;
 
             FinalProcessing::create([
                 'waste_record_id' => $wasteRecord->id,
                 'name_othod'      => $finalWasteType->final_name,
                 'company_id'      => $wasteRecord->company_id,
-                'value'           => $item->amount * ($finalWasteType->factor),
+                'value'           => $item->amount * $factor,
                 'type_operation'  => $finalWasteType->type_operation,
                 'created_at'      => $wasteRecord->created_at,
                 'updated_at'      => now(),
